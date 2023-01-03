@@ -19,7 +19,6 @@
         color: black;
     }
 </style>
-
 <body class="text-bg-dark">
     <div class="container mt-3">
         <nav class="navbar navbar-expand-sm">
@@ -53,8 +52,12 @@
         <form action="/new" method="post">
             <div class="mb-3 mt-3">
                 <label for="txtName">Product Name:</label>
-                <input type="text" class="form-control" name="txtName" id="namefield" oninput="return empty()">
-                <span id="cfname"></span>
+                {{#if alert_name}}
+                <input type="text" class="form-control" name="txtName" id="name">
+                <h6 class="text-danger">Name field must have at least 5 characters! Please try again!</h6>
+                {{else}}
+                <input type="text" class="form-control" name="txtName" id="name">
+                {{/if}}
             </div>
             <div class="mb-3">
                 <label for="txtPrice">Price:</label>
@@ -66,18 +69,15 @@
             </div>
             <div class="mb-3">
                 <label for="txtCategory">Category:</label>
+                {{#if alert_category}}
                 <input type="text" class="form-control" name="txtCategory">
+                <h6 class="text-danger">Category cannot be blanked!</h6>
+                {{else}}
+                <input type="text" class="form-control" name="txtCategory">
+                {{/if}}
             </div>
-            <input class="btn btn-primary" type="submit" value="Insert" >
+            <input class="btn btn-primary" type="submit" value="Insert">
         </form>
-        <script>
-            function empty() {
-                if (document.getElementById("namefield").value < 5) {
-                    document.getElementById("cfname").innerHTML = "Name field must be longer than 5 characters! Please Try Again!";
-                    return false;
-                }
-            }
-        </script>
     </div>
 </body>
 
