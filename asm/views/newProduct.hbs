@@ -19,13 +19,13 @@
         color: black;
     }
 </style>
+
 <body class="text-bg-dark">
     <div class="container mt-3">
         <nav class="navbar navbar-expand-sm">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">
-                    <img src="https://cdn-icons-png.flaticon.com/128/2133/2133049.png" alt="Logo" style="width:40px;"
-                        class="rounded-pill">
+                    <img src="https://cdn-icons-png.flaticon.com/128/2911/2911639.png" alt="Logo" style="width:40px;">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
                     <span class="navbar-toggler-icon"></span>
@@ -52,12 +52,7 @@
         <form action="/new" method="post">
             <div class="mb-3 mt-3">
                 <label for="txtName">Product Name:</label>
-                {{#if alert_name}}
                 <input type="text" class="form-control" name="txtName" id="name">
-                <h6 class="text-danger">Name field must have at least 5 characters! Please try again!</h6>
-                {{else}}
-                <input type="text" class="form-control" name="txtName" id="name">
-                {{/if}}
             </div>
             <div class="mb-3">
                 <label for="txtPrice">Price:</label>
@@ -69,15 +64,22 @@
             </div>
             <div class="mb-3">
                 <label for="txtCategory">Category:</label>
-                {{#if alert_category}}
                 <input type="text" class="form-control" name="txtCategory">
-                <h6 class="text-danger">Category cannot be blanked!</h6>
-                {{else}}
-                <input type="text" class="form-control" name="txtCategory">
-                {{/if}}
             </div>
+            <div class="mb-3">
+                <label for="txtWeight">Weight:</label>
+                <input type="text" class="form-control" name="txtWeight">
+            </div>
+            <p id="warning" class="text-danger">{{warning}}</p>
             <input class="btn btn-primary" type="submit" value="Insert">
         </form>
+        <script>
+            function validateWarning() {
+                const warning = document.getElementById("warning")
+                warning.innerHTML = ""
+                warning.setAttribute('hidden', true)
+            }
+        </script>
     </div>
 </body>
 

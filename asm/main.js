@@ -1,6 +1,6 @@
 var express = require('express')
 const hbs = require ('hbs')
-const { findProductByName, insertNewProduct, getAllProduct, updateProduct, findProductById, deleteProductById } = require('./databaseHandler')
+const { findProductByName, insertNewProduct, getAllProduct, deleteProductById } = require('./databaseHandler')
 var app = express()
 
 app.set('view engine', 'hbs')
@@ -24,22 +24,6 @@ app.post('/search', async (req, res) => {
     res.render('view', { results: searchResult })
 })
 
-app.post('/edit', async (req, res) => {
-    const id = req.body.id
-    const name = req.body.txtName
-    const price = req.body.txtPrice
-    const pictureURL = req.body.txtPic
-    const category = req.body.txtCategory
-    await updateProduct(id, name, price, pictureURL, category)
-    res.redirect('/view')
-})
-
-app.get('/edit', async (req, res) => {
-    const id = req.query.id
-    const productToEdit = await findProductById(id)
-    res.render("edit", { product: productToEdit })
-})
-
 app.get('/delete', async (req, res) => {
     const id = req.query.id
     await deleteProductById(id)
@@ -56,17 +40,22 @@ app.post('/new', async (req, res) => {
     let price = req.body.txtPrice
     let pictureURL = req.body.txtPic
     let category = req.body.txtCategory
+    let weight = req.body.txtWeight
     let newProduct = {
         name: name,
         price: Number.parseFloat(price),
         picture: pictureURL,
-        category: category
+        category: category,
+        weight: Number.parseFloat(weight)
     }
     if (name.length < 5) {
-        res.render('newProduct', { alert_name: true })
+        res.render('newProduct', { 'warning': "Name field must be at least 5 characters! Please try again!" })
+    }
+    else if (pictureURL.endsWith('png')) {
+        res.render('newProduct', {'warning': "The image is not in the correct format! Please try again!" })
     }
     else if (category.length < 1) {
-        res.render('newProduct', { alert_category: true })
+        res.render('newProduct', { 'warning': "Catergory cannot be blank! Please try again!" })
     }
     else {
         await insertNewProduct(newProduct)
